@@ -3,9 +3,44 @@
 #include "ray.h"
 #include "vec3.h"
 
+bool hitSphere(const Vec3& center, float radius, const Ray& r)
+{
+	/*
+	1) sphere eq:	(x - c_x)^2 + (y - c_y)^2 + (z - c_z)^2 = R^2
+					(p - c).(p - c) = R^2
+					// as dot product where p and c are vectors
+	2) ray eq:		p(t) = a + tb
+					// a and b are vectors: a is ray origin, b is ray dir
+	3) 2 into 1:	(p(t) - c).(p(t) - c) = R^2
+					(a + tb - c).(a + tb - c) = R^2
+					tb.tb + tb.(a - c) + tb.(a - c) + (a - c).(a - c) - R^2 = 0
+					t^2b.b + 2tb.(a - c) + (a - c).(a - c) - R^2 = 0
+					// note Quadratic form: x^2.A + x.B + C = 0  (where t = x)
+	5) Quadratic discriminant: B^2 - 4AC
+		> 0 : 2 real roots	(intersects i.e. crosses into and outside of)
+		= 0 : 1 real roots	(tangential to edge)
+		< 0 : 0 real roots	(does not intersect)
+	*/
+	const Vec3 origToSphereCenter = r.origin() - center;
+	const float a = dot(r.direction(), r.direction());
+	const float b = 2 * dot(origToSphereCenter, r.direction());
+	const float c = dot(origToSphereCenter, origToSphereCenter) - (radius * radius);
+	const float discriminant = (b * b) - (4.0f * a * c);
+	return (discriminant > 0);
+}
+
 Vec3 rayColor(const Ray& r)
 {
+	const Vec3 sphereCenter(0.f, 0.f, -1.0f);
+	const float sphereRadius = 0.5f;
+	if (hitSphere(sphereCenter, sphereRadius, r))
+	{
+		// red
+		return Vec3(1.0f, 0.f, 0.f);
+	}
 	const Vec3 unitDir = unitVector(r.direction());
+
+	// lerp from white -> blue based on ray direction y
 	const float yDirNorm = (0.5f * unitDir.y() + 1.0f);
 	return lerp(yDirNorm, Vec3(1.0f, 1.0f, 1.0f), Vec3(0.5f, 0.7f, 1.0f));
 }
