@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include "math_util.h"
 #include "ray.h"
 #include "vec3.h"
 
