@@ -6,8 +6,8 @@
 Vec3 rayColor(const Ray& r)
 {
 	const Vec3 unitDir = unitVector(r.direction());
-	const float t = (0.5f * unitDir.y() + 1.0f);
-	return (1.0f - t) * Vec3(1.0f, 1.0f, 1.0f) + t * Vec3(0.5f, 0.7f, 1.0f);
+	const float yDirNorm = (0.5f * unitDir.y() + 1.0f);
+	return lerp(yDirNorm, Vec3(1.0f, 1.0f, 1.0f), Vec3(0.5f, 0.7f, 1.0f));
 }
 
 int main()

@@ -89,3 +89,9 @@ inline Vec3 unitVector(Vec3 v)
 	const Vec3 uv = (v / v.length());
 	return uv;
 }
+
+inline Vec3 lerp(float t, const Vec3& a, const Vec3& b)
+{
+	t = (t > 1.0f) ? 1.0f : ((t < 0.f) ? 0.f : t); // clamp
+	return ((1.0f - t) * a) + (t * b);
+}
