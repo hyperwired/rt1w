@@ -59,6 +59,7 @@ HitResult Sphere::makeHitResult(const Ray& r, float t) const
 	HitResult res = {};
 	res.t_ = t;
 	res.pos_ = r.at(t);
-	res.normal_ = (res.pos_ - center_) / radius_;
+	const Vec3 outwardNormal = (res.pos_ - center_) / radius_;
+	res.setFaceNormal(r, outwardNormal);
 	return res;
 }

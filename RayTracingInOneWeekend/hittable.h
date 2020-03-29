@@ -8,6 +8,9 @@ struct HitResult
 	Vec3 pos_ = {};
 	Vec3 normal_ = {};
 	float t_ = -1.0f;
+	bool frontFacing_ = true;
+
+	void setFaceNormal(const Ray& r, const Vec3& outwardNormal);
 };
 
 class Hittable
