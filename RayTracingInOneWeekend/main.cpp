@@ -13,7 +13,7 @@ int main()
 		std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
 		for (int i = 0; i < imageWidth; ++i)
 		{
-			const vec3 color(
+			const Vec3 color(
 				static_cast<float>(i) / imageWidth,
 				static_cast<float>(j) / imageHeight,
 				0.2f);
