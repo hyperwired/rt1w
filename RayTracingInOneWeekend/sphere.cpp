@@ -1,5 +1,11 @@
 #include "sphere.h"
 
+Sphere::Sphere(const Vec3& center, float radius)
+	: center_(center), radius_(radius)
+{
+
+}
+
 bool Sphere::hit(const Ray& r, float t_min, float t_max, HitResult& hitResult) const
 {
 	/*

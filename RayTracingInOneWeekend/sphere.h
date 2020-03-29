@@ -6,7 +6,7 @@ class Sphere : public Hittable
 {
 public:
 	Sphere() = default;
-	Sphere(const Vec3& center, float radius) : center_(center_), radius_(radius) {}
+	Sphere(const Vec3& center, float radius);
 	
 	virtual bool hit(const Ray& r, float t_min, float t_max, HitResult& hitResult) const override;
 
