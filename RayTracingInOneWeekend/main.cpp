@@ -1,4 +1,5 @@
-#include <stdio.h>
+#include <cstdio>
+#include <iostream>
 
 int main()
 {
@@ -6,9 +7,11 @@ int main()
 	const int imageHeight = 100;
 
 	printf("P3\n%d %d\n255\n", imageWidth, imageHeight);
-	
-	for (int j = imageHeight - 1; j >= 0; --j) {
-		for (int i = 0; i < imageWidth; ++i) {
+	for (int j = imageHeight - 1; j >= 0; --j)
+	{
+		std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
+		for (int i = 0; i < imageWidth; ++i)
+		{
 			const double r = static_cast<double>(i) / imageWidth;
 			const double g = static_cast<double>(j) / imageHeight;
 			const double b = 0.2;
