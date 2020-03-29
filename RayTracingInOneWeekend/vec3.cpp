@@ -1,5 +1,14 @@
 #include "vec3.h"
 
+const Vec3 Vec3::ZeroVec(1.0f, 1.0f, 1.0f);
+const Vec3 Vec3::OneVec(1.0f, 1.0f, 1.0f);
+
+Vec3::Vec3(float e0, float e1, float e2)
+	: e{ e0, e1, e2 }
+{
+
+}
+
 Vec3& Vec3::operator+=(const Vec3& v)
 {
 	e[0] += v.e[0];

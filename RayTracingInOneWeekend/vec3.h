@@ -6,7 +6,7 @@ class Vec3 {
 public:
 
 	Vec3() : e{ 0.f, 0.f, 0.f } {}
-	Vec3(float e0, float e1, float e2) : e{ e0, e1, e2 } {}
+	Vec3(float e0, float e1, float e2);
 
 	float x() const { return e[0]; }
 	float y() const { return e[1]; }
@@ -30,6 +30,10 @@ public:
 
 public:
 	float e[3];
+
+public:
+	static const Vec3 ZeroVec;	// (0,0,0)
+	static const Vec3 OneVec;	// (1,1,1)
 };
 
 inline std::ostream& operator<<(std::ostream& out, const Vec3& v)
