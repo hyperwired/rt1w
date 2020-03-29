@@ -3,7 +3,7 @@
 #include "ray.h"
 #include "vec3.h"
 
-bool hitSphere(const Vec3& center, float radius, const Ray& r)
+float sphereHitRayParam(const Vec3& center, float radius, const Ray& r)
 {
 	/*
 	1) sphere eq:	(x - c_x)^2 + (y - c_y)^2 + (z - c_z)^2 = R^2
@@ -20,23 +20,39 @@ bool hitSphere(const Vec3& center, float radius, const Ray& r)
 		> 0 : 2 real roots	(intersects i.e. crosses into and outside of)
 		= 0 : 1 real roots	(tangential to edge)
 		< 0 : 0 real roots	(does not intersect)
+	6) Quadratic formula: (-B +/- sqrt(B^2-4AC)) / 2A
 	*/
 	const Vec3 origToSphereCenter = r.origin() - center;
 	const float a = dot(r.direction(), r.direction());
 	const float b = 2 * dot(origToSphereCenter, r.direction());
 	const float c = dot(origToSphereCenter, origToSphereCenter) - (radius * radius);
 	const float discriminant = (b * b) - (4.0f * a * c);
-	return (discriminant > 0);
+	if (discriminant <= 0.f)
+	{
+		// not a hit
+		return -1.0f;
+	}
+	else
+	{
+		// return the first of two roots (value for ray param t) 
+		// that is an intersection with the sphere surface
+		const float t = (-b - sqrt(discriminant)) / (2.0f * a);
+		return t;
+	}
 }
 
 Vec3 rayColor(const Ray& r)
 {
 	const Vec3 sphereCenter(0.f, 0.f, -1.0f);
 	const float sphereRadius = 0.5f;
-	if (hitSphere(sphereCenter, sphereRadius, r))
+	const float rayParamT = sphereHitRayParam(sphereCenter, sphereRadius, r);
+	if (rayParamT >= 0.f)
 	{
-		// red
-		return Vec3(1.0f, 0.f, 0.f);
+		// Determine where the ray hit, and the sphere normal
+		const Vec3 intersectionPos = r.at(rayParamT);
+		const Vec3 sphereNormal = unitVector(intersectionPos - sphereCenter);
+		const Vec3 normalColor = 0.5f * (Vec3(1.0f, 1.0f, 1.0f) + sphereNormal);
+		return normalColor;
 	}
 	const Vec3 unitDir = unitVector(r.direction());
 
