@@ -20,13 +20,17 @@ float sphereHitRayParam(const Vec3& center, float radius, const Ray& r)
 		> 0 : 2 real roots	(intersects i.e. crosses into and outside of)
 		= 0 : 1 real roots	(tangential to edge)
 		< 0 : 0 real roots	(does not intersect)
-	6) Quadratic formula: (-B +/- sqrt(B^2-4AC)) / 2A
+	6) Quadratic formula:	(-B +/- sqrt(B^2 - 4AC)) / 2A
+	7) Half-B variant:		((-2H) +/- sqrt((2H)^2- 4AC)) / 2A
+							(-2H +/- (2 * sqrt(H^2 - AC))) / 2A
+							(-H +/- sqrt(H^2-4AC)) / A
+	8) Half-B discriminant:	H^2 - AC
 	*/
 	const Vec3 origToSphereCenter = r.origin() - center;
 	const float a = dot(r.direction(), r.direction());
-	const float b = 2 * dot(origToSphereCenter, r.direction());
+	const float half_b = dot(origToSphereCenter, r.direction());
 	const float c = dot(origToSphereCenter, origToSphereCenter) - (radius * radius);
-	const float discriminant = (b * b) - (4.0f * a * c);
+	const float discriminant = (half_b * half_b) - (a * c);
 	if (discriminant <= 0.f)
 	{
 		// not a hit
@@ -36,7 +40,7 @@ float sphereHitRayParam(const Vec3& center, float radius, const Ray& r)
 	{
 		// return the first of two roots (value for ray param t) 
 		// that is an intersection with the sphere surface
-		const float t = (-b - sqrt(discriminant)) / (2.0f * a);
+		const float t = (-half_b - sqrt(discriminant)) / (2.0f * a);
 		return t;
 	}
 }
