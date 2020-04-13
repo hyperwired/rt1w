@@ -84,3 +84,12 @@ inline Vec3 randomUnitVectorSphereSurface()
 	return Vec3(r * cosf(a), r * sinf(a), z);
 }
 
+inline Vec3 randomUnitVectorInHemisphere(const Vec3& outwardNormal)
+{
+	const Vec3 randVec = randomVecInUnitSphere();
+	if (dot(randVec, outwardNormal) > 0.f)
+	{
+		return randVec;
+	}
+	return -randVec;
+}

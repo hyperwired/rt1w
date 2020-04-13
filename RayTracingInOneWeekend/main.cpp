@@ -1,3 +1,4 @@
+#include <cassert>
 #include <iostream>
 
 #include "math_util.h"
@@ -8,6 +9,41 @@
 #include "ray.h"
 #include "vec3.h"
 
+
+enum class DiffuseScatterMode
+{
+	// A true Lambertian distribution is cos(theta), which is a more uniform distribution
+	// (random point on reflected unit sphere surface with center at hit unit normal)
+	TrueLambertian,
+	// Bounce diffuse approximation (random point in reflected unit sphere with center at surface unit normal)
+	// This distribution scales by cos^3(theta) where theta is the angle from the normal
+	LambertianApprox1,
+	// Uniform scatter direction for all angles away from hit point, disregarding angle from normal offset.
+	// This is a simplification that used to be popular in earlier literature.
+	HemisphericalApprox1,
+};
+
+Vec3 MakeDiffuseScatteringRayTarget(const HitResult& hitResult, DiffuseScatterMode diffuseMode)
+{
+	switch (diffuseMode)
+	{
+	case DiffuseScatterMode::TrueLambertian:
+	{
+		return hitResult.pos_ + hitResult.normal_ + randomUnitVectorSphereSurface();
+	}
+	case DiffuseScatterMode::LambertianApprox1:
+	{
+		return hitResult.pos_ + hitResult.normal_ + randomVecInUnitSphere();
+	}
+	case DiffuseScatterMode::HemisphericalApprox1:
+	{
+		return hitResult.pos_ + randomUnitVectorInHemisphere(hitResult.normal_);
+	}
+	default:
+		assert(false && "unexpected enum value");
+		return Vec3::ZeroVec;
+	}
+}
 
 Vec3 rayColor(const Ray& r, const Hittable& world, int depth)
 {
@@ -20,9 +56,9 @@ Vec3 rayColor(const Ray& r, const Hittable& world, int depth)
 	const float min_t = 0.0001f;	// Ignore hits very close to zero to avoid shadow acne.
 	if (world.hit(r, min_t, infinity, hitResult))
 	{
-		// Bounce diffuse (random point on reflected unit sphere surface with center at hit unit normal)
-		// A true Lambertian distribution is cos(theta), which is a more uniform distribution
-		const Vec3 DiffuseBounceTarget = hitResult.pos_ + hitResult.normal_ + randomUnitVectorSphereSurface();
+		// Bounce diffuse 
+		const DiffuseScatterMode scatterMode = DiffuseScatterMode::HemisphericalApprox1;
+		const Vec3 DiffuseBounceTarget = MakeDiffuseScatteringRayTarget(hitResult, scatterMode);
 		const Ray TargetRay(hitResult.pos_, DiffuseBounceTarget - hitResult.pos_);
 		const float reflectanceFactor = 0.5f;
 		// Recursive bounce
