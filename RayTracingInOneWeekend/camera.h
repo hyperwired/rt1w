@@ -8,15 +8,16 @@ struct Viewport
 	Viewport() = default;
 	Viewport(float width, float height) : width_(width), height_(height) {}
 
-	float width_ = 200;
-	float height_ = 100;
+	float width_ = 200.f;
+	float height_ = 100.f;
 };
 
 
 class Camera
 {
 public:
-	Camera(const Viewport& viewport, const float viewportPixelDensity = 1.0f);
+	Camera() : Camera(Viewport()) {}
+	Camera(const Viewport& viewport);
 
 	Ray getRay(float u, float v);
 

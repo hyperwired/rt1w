@@ -26,13 +26,15 @@ Vec3 rayColor(const Ray& r, const Hittable& world)
 
 int main()
 {
-	const int imageWidth = 200;
-	const int imageHeight = 100;
+	const int imageWidthBase = 200;
+	const int imageHeightBase = 100;
+	const int pixelMultiplier = 3;
+	const int imageWidth = imageWidthBase * pixelMultiplier;
+	const int imageHeight = imageHeightBase * pixelMultiplier;
 	const int samplesPerPixel = 100;
 
 	Viewport viewport(imageWidth, imageHeight);
-	const float viewportPixelDensity = 1.0f;
-	Camera cam(viewport, viewportPixelDensity);
+	Camera cam(viewport);
 
 	std::cout << "P3\n" << imageWidth << ' ' << imageHeight << "\n255\n";
 
