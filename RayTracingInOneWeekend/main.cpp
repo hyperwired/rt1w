@@ -57,7 +57,7 @@ Vec3 rayColor(const Ray& r, const Hittable& world, int depth)
 	if (world.hit(r, min_t, infinity, hitResult))
 	{
 		// Bounce diffuse 
-		const DiffuseScatterMode scatterMode = DiffuseScatterMode::HemisphericalApprox1;
+		const DiffuseScatterMode scatterMode = DiffuseScatterMode::TrueLambertian;
 		const Vec3 DiffuseBounceTarget = MakeDiffuseScatteringRayTarget(hitResult, scatterMode);
 		const Ray TargetRay(hitResult.pos_, DiffuseBounceTarget - hitResult.pos_);
 		const float reflectanceFactor = 0.5f;
