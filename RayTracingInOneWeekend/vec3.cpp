@@ -47,13 +47,21 @@ float Vec3::lengthSq() const
 
 void Vec3::writeColor(std::ostream& out, int samplesPerPixel) const
 {
+	// divide by number of samples
 	const float sampleScale = 1.f / samplesPerPixel;
+	
+	// sqrt: since gamma approximation of gamma = 2, and gamma corrected val is val ^ (1/gamma)
+	const float r = sqrt(sampleScale * e[0]);
+	const float g = sqrt(sampleScale * e[1]);
+	const float b = sqrt(sampleScale * e[2]);
+
+	// 1 past maximum output value
 	const float postScale = 256.f;
 
 	// Write the translated [0,255] value of each color component.
-	out << static_cast<int>(postScale * saturateExc(sampleScale * e[0])) << ' '
-		<< static_cast<int>(postScale * saturateExc(sampleScale * e[1])) << ' '
-		<< static_cast<int>(postScale * saturateExc(sampleScale * e[2])) << '\n';
+	out << static_cast<int>(postScale * saturateExc(r)) << ' '
+		<< static_cast<int>(postScale * saturateExc(g)) << ' '
+		<< static_cast<int>(postScale * saturateExc(b)) << '\n';
 }
 
 
