@@ -18,9 +18,9 @@ public:
 
 	Vec3& operator+=(const Vec3& v);
 
-	Vec3& operator*=(const float t);
+	Vec3& operator*=(float t);
 
-	Vec3& operator/=(const float t);
+	Vec3& operator/=(float t);
 
 	float length() const;
 
@@ -69,7 +69,7 @@ inline Vec3 operator*(const Vec3& v, float t)
 	return t * v;
 }
 
-inline Vec3 operator/(Vec3 v, float t) {
+inline Vec3 operator/(const Vec3& v, float t) {
 	return (1 / t) * v;
 }
 
@@ -91,10 +91,9 @@ inline Vec3 cross(const Vec3& u, const Vec3& v)
 	return cp;
 }
 
-inline Vec3 unitVector(Vec3 v)
+inline Vec3 unitVector(const Vec3& v)
 {
 	const Vec3 uv = (v / v.length());
 	return uv;
 }
-
 
