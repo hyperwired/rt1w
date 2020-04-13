@@ -1,5 +1,7 @@
 #pragma once
 
+#include "vec3.h"
+
 #include <cstdlib>
 #include <functional>
 #include <limits>
@@ -59,4 +61,18 @@ inline float randomFloatRange(float min, float max)
 	return min + (max - min) * randomFloat();
 }
 
+inline Vec3 randomVecInUnitSphere()
+{
+	Vec3 randVec = Vec3::ZeroVec;
+	while (true)
+	{
+		randVec = Vec3::random(-1.f, 1.f);
+		if (randVec.lengthSq() >= 1.f)
+		{
+			// reject points outside of unit sphere
+			continue;
+		}
+		return randVec;
+	}
+}
 

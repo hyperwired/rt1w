@@ -5,6 +5,7 @@
 const Vec3 Vec3::ZeroVec(1.0f, 1.0f, 1.0f);
 const Vec3 Vec3::OneVec(1.0f, 1.0f, 1.0f);
 
+
 Vec3::Vec3(float e0, float e1, float e2)
 	: e{ e0, e1, e2 }
 {
@@ -53,4 +54,17 @@ void Vec3::writeColor(std::ostream& out, int samplesPerPixel) const
 	out << static_cast<int>(postScale * saturateExc(sampleScale * e[0])) << ' '
 		<< static_cast<int>(postScale * saturateExc(sampleScale * e[1])) << ' '
 		<< static_cast<int>(postScale * saturateExc(sampleScale * e[2])) << '\n';
+}
+
+
+Vec3 Vec3::random()
+{
+	return Vec3(randomFloat(), randomFloat(), randomFloat());
+}
+
+Vec3 Vec3::random(float min, float max)
+{
+	return Vec3(randomFloatRange(min, max),
+				randomFloatRange(min, max),
+				randomFloatRange(min, max));
 }

@@ -9,13 +9,22 @@
 #include "vec3.h"
 
 
-Vec3 rayColor(const Ray& r, const Hittable& world)
+Vec3 rayColor(const Ray& r, const Hittable& world, int depth)
 {
+	// Exceeded ray bounce limit, no light is gathered
+	if (depth <= 0)
+	{
+		return Vec3::ZeroVec;
+	}
 	HitResult hitResult = {};
 	if (world.hit(r, 0, infinity, hitResult))
 	{
-		const Vec3 normalColor = 0.5f * (Vec3::OneVec + hitResult.normal_);
-		return normalColor;
+		// Bounce diffuse approximation (random point in reflected unit sphere with center at surface unit normal)
+		const Vec3 DiffuseBounceTarget = hitResult.pos_ + hitResult.normal_ + randomVecInUnitSphere();
+		const Ray TargetRay(hitResult.pos_, DiffuseBounceTarget - hitResult.normal_);
+		const float reflectanceFactor = 0.5f;
+		// Recursive bounce
+		return reflectanceFactor * rayColor(TargetRay, world, depth - 1);
 	}
 
 	// not hit: lerp from white -> blue based on ray direction y
@@ -32,6 +41,7 @@ int main()
 	const int imageWidth = imageWidthBase * pixelMultiplier;
 	const int imageHeight = imageHeightBase * pixelMultiplier;
 	const int samplesPerPixel = 100;
+	const int maxBounceDepth = 50;
 
 	Viewport viewport(imageWidth, imageHeight);
 	Camera cam(viewport);
@@ -58,7 +68,7 @@ int main()
 				const float u = static_cast<float>(i + randomFloat()) / imageWidth;
 				const float v = static_cast<float>(j + randomFloat()) / imageHeight;
 				const Ray r = cam.getRay(u, v);
-				color += rayColor(r, world);
+				color += rayColor(r, world, maxBounceDepth);
 			}
 			
 			color.writeColor(std::cout, samplesPerPixel);

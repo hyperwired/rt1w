@@ -34,6 +34,9 @@ public:
 public:
 	static const Vec3 ZeroVec;	// (0,0,0)
 	static const Vec3 OneVec;	// (1,1,1)
+
+	static Vec3 random();
+	static Vec3 random(float min, float max);
 };
 
 inline std::ostream& operator<<(std::ostream& out, const Vec3& v)
