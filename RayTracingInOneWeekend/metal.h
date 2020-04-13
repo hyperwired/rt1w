@@ -4,7 +4,7 @@
 class Metal : public Material
 {
 public:
-	Metal(const Vec3& albedo) : albedo_(albedo) {}
+	Metal(const Vec3& albedo, float fuzziness);
 
 	virtual bool scatter(
 		const Ray& inRay, const HitResult& hitResult,
@@ -12,5 +12,6 @@ public:
 
 public:
 	Vec3 albedo_ = Vec3::ZeroVec;
+	float fuzziness_ = 0.f;
 };
 

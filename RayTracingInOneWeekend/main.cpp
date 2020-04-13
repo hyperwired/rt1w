@@ -77,10 +77,10 @@ int main()
 
 	// Metal spheres
 	world.add(std::make_shared<Sphere>(
-		Vec3(1.f, 0.f, -1.f), 0.5f, std::make_shared<Metal>(Vec3(0.8f, 0.6f, 0.2f)))
+		Vec3(1.f, 0.f, -1.f), 0.5f, std::make_shared<Metal>(Vec3(0.8f, 0.6f, 0.2f), 0.3f))
 	);
 	world.add(std::make_shared<Sphere>(
-		Vec3(-1.f, 0.f, -1.f), 0.5f, std::make_shared<Metal>(Vec3(0.8f, 0.8f, 0.8f)))
+		Vec3(-1.f, 0.f, -1.f), 0.5f, std::make_shared<Metal>(Vec3(0.8f, 0.8f, 0.8f), 1.0f))
 	);
 	
 	for (int j = imageHeight - 1; j >= 0; --j)
