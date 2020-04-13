@@ -1,9 +1,9 @@
 #include "sphere.h"
 
-Sphere::Sphere(const Vec3& center, float radius)
+Sphere::Sphere(const Vec3& center, float radius, std::shared_ptr<Material> material)
 	: center_(center), radius_(radius)
 {
-
+	setMaterial(material);
 }
 
 bool Sphere::hit(const Ray& r, float t_min, float t_max, HitResult& hitResult) const
@@ -67,5 +67,6 @@ HitResult Sphere::makeHitResult(const Ray& r, float t) const
 	res.pos_ = r.at(t);
 	const Vec3 outwardNormal = (res.pos_ - center_) / radius_;
 	res.setFaceNormal(r, outwardNormal);
+	res.material_ = material_;
 	return res;
 }
