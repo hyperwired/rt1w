@@ -21,7 +21,7 @@ Vec3 rayColor(const Ray& r, const Hittable& world, int depth)
 	{
 		// Bounce diffuse approximation (random point in reflected unit sphere with center at surface unit normal)
 		const Vec3 DiffuseBounceTarget = hitResult.pos_ + hitResult.normal_ + randomVecInUnitSphere();
-		const Ray TargetRay(hitResult.pos_, DiffuseBounceTarget - hitResult.normal_);
+		const Ray TargetRay(hitResult.pos_, DiffuseBounceTarget - hitResult.pos_);
 		const float reflectanceFactor = 0.5f;
 		// Recursive bounce
 		return reflectanceFactor * rayColor(TargetRay, world, depth - 1);
