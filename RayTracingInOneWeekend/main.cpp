@@ -30,6 +30,10 @@ int main()
 	const int imageHeight = 100;
 	const int samplesPerPixel = 100;
 
+	Viewport viewport(imageWidth, imageHeight);
+	const float viewportPixelDensity = 1.0f;
+	Camera cam(viewport, viewportPixelDensity);
+
 	std::cout << "P3\n" << imageWidth << ' ' << imageHeight << "\n255\n";
 
 	const Vec3 lowerLeftCorner(-2.0f, -1.0f, -1.0f);
@@ -40,8 +44,7 @@ int main()
 	HittableList world;
 	world.add(std::make_shared<Sphere>(Vec3(0.f, 0.f, -1.f), 0.5f));
 	world.add(std::make_shared<Sphere>(Vec3(0.f, -100.5f, -1.f), 100.f));
-	Camera cam;
-
+	
 	for (int j = imageHeight - 1; j >= 0; --j)
 	{
 		std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
