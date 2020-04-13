@@ -17,9 +17,12 @@ Vec3 rayColor(const Ray& r, const Hittable& world, int depth)
 		return Vec3::ZeroVec;
 	}
 	HitResult hitResult = {};
-	if (world.hit(r, 0, infinity, hitResult))
+	const float min_t = 0.0001f;	// Ignore hits very close to zero to avoid shadow acne.
+	if (world.hit(r, min_t, infinity, hitResult))
 	{
 		// Bounce diffuse approximation (random point in reflected unit sphere with center at surface unit normal)
+		// This distribution scales by cos^3(theta) where theta is the angle from the normal
+		// A true Lambertian distribution is cos(theta), which is a more uniform distribution
 		const Vec3 DiffuseBounceTarget = hitResult.pos_ + hitResult.normal_ + randomVecInUnitSphere();
 		const Ray TargetRay(hitResult.pos_, DiffuseBounceTarget - hitResult.pos_);
 		const float reflectanceFactor = 0.5f;
