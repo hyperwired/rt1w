@@ -97,3 +97,26 @@ inline Vec3 unitVector(const Vec3& v)
 	return uv;
 }
 
+
+inline Vec3 reflect(const Vec3& v, const Vec3& n)
+{
+	// Reflect incoming direct vector v against surface unit normal n 
+	// returning outgoing direction vector from surface
+	//          N (unit vec)
+	//          ^
+	//          |   R
+	//       \  |  /|
+	//     V  \ | / | B
+	//         \|/  |
+	//  --------x---+----- surface
+	//           \  |
+	//          V \ | B
+	//             \|
+	// 
+	// R = V + (-2B * N)
+	//    where B is scalar length of V_in projected onto unit vec N
+	//    negation is required due to V pointing 
+	//    i.e. B = dot(V, N)
+	return v - 2*dot(v, n) * n;
+}
+

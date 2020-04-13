@@ -45,6 +45,9 @@
     <ClCompile Include="lambertian.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="metal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vec3.h">
@@ -72,6 +75,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="lambertian.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="metal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

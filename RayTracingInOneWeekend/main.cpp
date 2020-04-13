@@ -6,6 +6,7 @@
 #include "camera.h"
 #include "hittable_list.h"
 #include "lambertian.h"
+#include "metal.h"
 #include "sphere.h"
 #include "ray.h"
 #include "vec3.h"
@@ -65,11 +66,21 @@ int main()
 	const Vec3 origin(0.0f, 0.0f, 0.0f);
 
 	HittableList world;
+
+	// Diffuse spheres
 	world.add(std::make_shared<Sphere>(
 		Vec3(0.f, 0.f, -1.f), 0.5f, std::make_shared<Lambertian>(Vec3(0.7f, 0.3f, 0.3f)))
 	);
 	world.add(std::make_shared<Sphere>(
 		Vec3(0.f, -100.5f, -1.f), 100.f, std::make_shared<Lambertian>(Vec3(0.8f, 0.8f, 0.f)))
+	);
+
+	// Metal spheres
+	world.add(std::make_shared<Sphere>(
+		Vec3(1.f, 0.f, -1.f), 0.5f, std::make_shared<Metal>(Vec3(0.8f, 0.6f, 0.2f)))
+	);
+	world.add(std::make_shared<Sphere>(
+		Vec3(-1.f, 0.f, -1.f), 0.5f, std::make_shared<Metal>(Vec3(0.8f, 0.8f, 0.8f)))
 	);
 	
 	for (int j = imageHeight - 1; j >= 0; --j)

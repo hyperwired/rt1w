@@ -145,6 +145,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="material.cpp" />
     <ClCompile Include="math_util.cpp" />
+    <ClCompile Include="metal.cpp" />
     <ClCompile Include="ray.cpp" />
     <ClCompile Include="sphere.cpp" />
     <ClCompile Include="vec3.cpp" />
@@ -156,6 +157,7 @@
     <ClInclude Include="lambertian.h" />
     <ClInclude Include="material.h" />
     <ClInclude Include="math_util.h" />
+    <ClInclude Include="metal.h" />
     <ClInclude Include="ray.h" />
     <ClInclude Include="sphere.h" />
     <ClInclude Include="vec3.h" />
