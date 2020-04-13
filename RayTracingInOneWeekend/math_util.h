@@ -32,13 +32,13 @@ T lerp(float t, const T& a, const T& b)
 #define OLD_STYLE_RAND 0
 #if OLD_STYLE_RAND
 // return real in [0, 1)
-inline float random_float_norm()
+inline float randomFloatNorm()
 {
 	return rand() / (RAND_MAX + 1.0);
 }
 #else
 // return real in [0, 1)
-inline float random_float_norm()
+inline float randomFloatNorm()
 {
 	static std::uniform_real_distribution<float> distribution(0.f, 1.f);
 	static std::mt19937 generator;
@@ -48,9 +48,9 @@ inline float random_float_norm()
 #endif
 
 // return real in [min, max)
-inline float random_float_range(float min, float max)
+inline float randomFloatRange(float min, float max)
 {
-	return min + (max - min) * random_float_norm();
+	return min + (max - min) * randomFloatNorm();
 }
 
 
