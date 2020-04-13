@@ -1,5 +1,7 @@
 #include "vec3.h"
 
+#include "math_util.h"
+
 const Vec3 Vec3::ZeroVec(1.0f, 1.0f, 1.0f);
 const Vec3 Vec3::OneVec(1.0f, 1.0f, 1.0f);
 
@@ -37,13 +39,18 @@ float Vec3::length() const
 
 float Vec3::lengthSq() const
 {
-	return e[0] * e[0] + e[1] * e[1] + e[2] * e[2];
+	return (e[0] * e[0] + 
+			e[1] * e[1] + 
+			e[2] * e[2]);
 }
 
-void Vec3::writeColor(std::ostream& out) const
+void Vec3::writeColor(std::ostream& out, int samplesPerPixel) const
 {
+	const float sampleScale = 1.f / samplesPerPixel;
+	const float postScale = 256.f;
+
 	// Write the translated [0,255] value of each color component.
-	out << static_cast<int>(255.999f * e[0]) << ' '
-		<< static_cast<int>(255.999f * e[1]) << ' '
-		<< static_cast<int>(255.999f * e[2]) << '\n';
+	out << static_cast<int>(postScale * saturateExc(sampleScale * e[0])) << ' '
+		<< static_cast<int>(postScale * saturateExc(sampleScale * e[1])) << ' '
+		<< static_cast<int>(postScale * saturateExc(sampleScale * e[2])) << '\n';
 }

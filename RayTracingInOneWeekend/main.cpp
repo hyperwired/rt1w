@@ -2,6 +2,7 @@
 
 #include "math_util.h"
 
+#include "camera.h"
 #include "hittable_list.h"
 #include "sphere.h"
 #include "ray.h"
@@ -27,6 +28,7 @@ int main()
 {
 	const int imageWidth = 200;
 	const int imageHeight = 100;
+	const int samplesPerPixel = 100;
 
 	std::cout << "P3\n" << imageWidth << ' ' << imageHeight << "\n255\n";
 
@@ -38,20 +40,27 @@ int main()
 	HittableList world;
 	world.add(std::make_shared<Sphere>(Vec3(0.f, 0.f, -1.f), 0.5f));
 	world.add(std::make_shared<Sphere>(Vec3(0.f, -100.5f, -1.f), 100.f));
+	Camera cam;
 
 	for (int j = imageHeight - 1; j >= 0; --j)
 	{
 		std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
 		for (int i = 0; i < imageWidth; ++i)
 		{
-			const float u = static_cast<float>(i) / imageWidth;
-			const float v = static_cast<float>(j) / imageHeight;
-			const Vec3 direction = lowerLeftCorner + u * xOffset + v * yOffset;
-			const Ray r(origin, direction);
-			const Vec3 color = rayColor(r, world);
-			color.writeColor(std::cout);
+			Vec3 color = Vec3::ZeroVec;
+			for (int s = 0; s < samplesPerPixel; ++s)
+			{
+				const float u = static_cast<float>(i + randomFloat()) / imageWidth;
+				const float v = static_cast<float>(j + randomFloat()) / imageHeight;
+				const Ray r = cam.getRay(u, v);
+				color += rayColor(r, world);
+			}
+			
+			color.writeColor(std::cout, samplesPerPixel);
 		}
 	}
+
+	std::cerr << "\nDone.\n";
 
 	return 0;
 }

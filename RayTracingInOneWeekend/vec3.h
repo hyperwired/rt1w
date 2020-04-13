@@ -26,7 +26,7 @@ public:
 
 	float lengthSq() const;
 
-	void writeColor(std::ostream& out) const;
+	void writeColor(std::ostream& out, int samplesPerPixel) const;
 
 public:
 	float e[3];

@@ -19,8 +19,14 @@ inline float clamp(float t, float minval, float maxval)
 
 inline float saturate(float t)
 {
-	return (t > 1.0f) ? 1.0f : ((t < 0.f) ? 0.f : t);
+	return clamp(t, 0.f, 1.0f);
 }
+
+inline float saturateExc(float t)
+{
+	return clamp(t, 0.f, 0.9999f);
+}
+
 
 template <class T>
 T lerp(float t, const T& a, const T& b)
@@ -32,13 +38,13 @@ T lerp(float t, const T& a, const T& b)
 #define OLD_STYLE_RAND 0
 #if OLD_STYLE_RAND
 // return real in [0, 1)
-inline float randomFloatNorm()
+inline float randomFloat()
 {
 	return rand() / (RAND_MAX + 1.0);
 }
 #else
 // return real in [0, 1)
-inline float randomFloatNorm()
+inline float randomFloat()
 {
 	static std::uniform_real_distribution<float> distribution(0.f, 1.f);
 	static std::mt19937 generator;
@@ -50,7 +56,7 @@ inline float randomFloatNorm()
 // return real in [min, max)
 inline float randomFloatRange(float min, float max)
 {
-	return min + (max - min) * randomFloatNorm();
+	return min + (max - min) * randomFloat();
 }
 
 
