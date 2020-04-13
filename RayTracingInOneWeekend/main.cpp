@@ -20,10 +20,9 @@ Vec3 rayColor(const Ray& r, const Hittable& world, int depth)
 	const float min_t = 0.0001f;	// Ignore hits very close to zero to avoid shadow acne.
 	if (world.hit(r, min_t, infinity, hitResult))
 	{
-		// Bounce diffuse approximation (random point in reflected unit sphere with center at surface unit normal)
-		// This distribution scales by cos^3(theta) where theta is the angle from the normal
+		// Bounce diffuse (random point on reflected unit sphere surface with center at hit unit normal)
 		// A true Lambertian distribution is cos(theta), which is a more uniform distribution
-		const Vec3 DiffuseBounceTarget = hitResult.pos_ + hitResult.normal_ + randomVecInUnitSphere();
+		const Vec3 DiffuseBounceTarget = hitResult.pos_ + hitResult.normal_ + randomUnitVectorSphereSurface();
 		const Ray TargetRay(hitResult.pos_, DiffuseBounceTarget - hitResult.pos_);
 		const float reflectanceFactor = 0.5f;
 		// Recursive bounce
@@ -40,7 +39,7 @@ int main()
 {
 	const int imageWidthBase = 200;
 	const int imageHeightBase = 100;
-	const int pixelMultiplier = 3;
+	const int pixelMultiplier = 4;
 	const int imageWidth = imageWidthBase * pixelMultiplier;
 	const int imageHeight = imageHeightBase * pixelMultiplier;
 	const int samplesPerPixel = 100;

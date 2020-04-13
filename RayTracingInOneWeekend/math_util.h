@@ -76,3 +76,11 @@ inline Vec3 randomVecInUnitSphere()
 	}
 }
 
+inline Vec3 randomUnitVectorSphereSurface()
+{
+	const float a = randomFloatRange(0.f, 2.f * pi);
+	const float z = randomFloatRange(-1.f, 1.f);
+	const float r = sqrt(1 - z * z);
+	return Vec3(r * cosf(a), r * sinf(a), z);
+}
+
